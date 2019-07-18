@@ -1,0 +1,81 @@
+policy_module(estatequery, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type estatequery_t;
+type estatequery_exec_t;
+init_daemon_domain(estatequery_t, estatequery_exec_t)
+
+permissive estatequery_t;
+
+type estatequery_initrc_exec_t;
+init_script_file(estatequery_initrc_exec_t)
+
+type estatequery_conf_t;
+files_type(estatequery_conf_t)
+
+type estatequery_var_lib_t;
+files_type(estatequery_var_lib_t)
+
+type estatequery_var_run_t;
+files_type(estatequery_var_run_t)
+
+type estatequery_port_t;
+corenet_port(estatequery_port_t)
+
+########################################
+#
+# estatequery local policy
+#
+allow estatequery_t self:process { fork };
+
+allow estatequery_t self:fifo_file rw_fifo_file_perms;
+allow estatequery_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(estatequery_t, estatequery_conf_t, estatequery_conf_t)
+manage_files_pattern(estatequery_t, estatequery_conf_t, estatequery_conf_t)
+
+manage_dirs_pattern(estatequery_t, estatequery_var_lib_t, estatequery_var_lib_t)
+manage_files_pattern(estatequery_t, estatequery_var_lib_t, estatequery_var_lib_t)
+files_var_lib_filetrans(estatequery_t, estatequery_var_lib_t, { dir file })
+
+manage_dirs_pattern(estatequery_t, estatequery_var_run_t, estatequery_var_run_t)
+manage_files_pattern(estatequery_t, estatequery_var_run_t, estatequery_var_run_t)
+
+sysnet_dns_name_resolve(estatequery_t)
+corenet_all_recvfrom_unlabeled(estatequery_t)
+
+allow estatequery_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(estatequery_t)
+corenet_tcp_sendrecv_generic_node(estatequery_t)
+corenet_tcp_sendrecv_all_ports(estatequery_t)
+corenet_tcp_bind_generic_node(estatequery_t)
+
+gen_require(`
+    type estatequery_port_t;
+')
+allow estatequery_t estatequery_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type estatequery_port_t;
+')
+allow estatequery_t estatequery_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(estatequery_t)
+
+files_read_etc_files(estatequery_t)
+
+miscfiles_read_localization(estatequery_t)
+
+sysnet_dns_name_resolve(estatequery_t)
+
+allow estatequery_t estatequery_exec_t:file execute_no_trans;
+allow estatequery_t self:process setsched;
+corecmd_exec_ls(estatequery_t)
+corenet_tcp_connect_http_port(estatequery_t)
+dev_read_urand(estatequery_t)
+fs_getattr_xattr_fs(estatequery_t)
+kernel_read_system_state(estatequery_t)

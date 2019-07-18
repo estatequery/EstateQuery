@@ -1,0 +1,6 @@
+usr/local/bin/estatequery-qt usr/bin
+share/pixmaps/estatequery32.xpm usr/share/pixmaps
+share/pixmaps/estatequery16.xpm usr/share/pixmaps
+share/pixmaps/estatequery128.png usr/share/pixmaps
+debian/estatequery-qt.desktop usr/share/applications
+debian/estatequery-qt.protocol usr/share/kde4/services/
