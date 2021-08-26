@@ -1,3 +1,0 @@
-usr/local/bin/estatequeryd usr/bin
-usr/local/bin/estatequery-cli usr/bin
-debian/examples/estatequery.conf etc/estatequery

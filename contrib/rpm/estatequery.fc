@@ -1,8 +1,0 @@
-/usr/bin/estatequery-cli		--	gen_context(system_u:object_r:estatequery_exec_t,s0)
-/usr/sbin/estatequeryd		--	gen_context(system_u:object_r:estatequery_exec_t,s0)
-/usr/lib(64)?/estatequery/estatequeryd		--	gen_context(system_u:object_r:estatequery_exec_t,s0)
-
-/etc/estatequery(/.*)?		gen_context(system_u:object_r:estatequery_conf_t,s0)
-/var/lib/estatequery(/.*)?		gen_context(system_u:object_r:estatequery_var_lib_t,s0)
-
-(/var)?/run/estatequeryd(/.*)?   gen_context(system_u:object_r:estatequery_var_run_t,s0)
